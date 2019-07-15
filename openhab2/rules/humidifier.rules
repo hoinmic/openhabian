@@ -1,0 +1,13 @@
+rule "Humidifier OFF"
+when
+  Item humidifier changed from ON to OFF
+then
+  humidifier.sendCommand(OFF)
+end
+
+rule "Humidifier ON"
+when
+  Item humidifier changed from OFF to ON
+then
+  humidifier.sendCommand(ON)
+end
