@@ -5,7 +5,8 @@ sitemap humidifier label="Main Menu"
         Text    item=humidifier_power
         Text    item=humidifier_temperature
         Text    item=humidifier_network
-		Text    item=humidifier_latency
+	Text    item=humidifier_latency
         Switch  item=humidifier
+        Text    item=battery_HT
 	}
 }

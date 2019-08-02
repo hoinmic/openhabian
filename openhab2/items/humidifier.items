@@ -9,3 +9,5 @@ Switch  humidifier_network      "Network Status [%s]"       <poweroutlet>   (gHu
 Number  humidifier_latency      "Latency [%d ms]"           <poweroutlet>   (gHumidifier, gPing)    { channel="network:pingdevice:devicename:latency" }
 
 Switch  humidifier              "Remote Control [%s]"       <poweroutlet>   (gHumidifier, gSwitch)  { http=">[ON:GET:http://192.168.0.100/relay?state=1] >[OFF:GET:http://192.168.0.100/relay?state=0]" }
+
+Number  battery_HT              "Battery level [%d]"        <battery>       (gBattery, gShellyHT)   { channel="mqtt:topic:mything:battery" } 

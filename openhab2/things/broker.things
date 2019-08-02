@@ -1,0 +1,1 @@
+mqtt:broker:myUnsecureBroker [ host="127.0.0.1", secure=false ]
