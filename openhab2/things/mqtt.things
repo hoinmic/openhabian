@@ -2,7 +2,9 @@ Bridge mqtt:broker:myUnsecureBroker [ host="127.0.0.1", secure=false ]
 {
     Thing mqtt:topic:mything {
     Channels:
-        Type number : battery "Battery level" [ stateTopic="shellies/shellyht-5A8B14/sensor/battery", commandTopic="" ]
+        Type number : battery "Battery level"       [ stateTopic="shellies/shellyht-5A8B14/sensor/battery", commandTopic="" ]
+        Type number : humidity "Humidity"           [ stateTopic="shellies/shellyht-5A8B14/sensor/humidity", commandTopic="" ]
+        Type number : temperature "Temperature"     [ stateTopic="shellies/shellyht-5A8B14/sensor/temperature", commandTopic="" ]
     }
 }
 
