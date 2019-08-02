@@ -12,4 +12,4 @@ Switch  humidifier              "Remote Control [%s]"       <poweroutlet>   (gHu
 
 Number  battery_HT              "Battery level [%d %%]"     <battery>       (gShellyHT)             { channel="mqtt:topic:mything:battery" } 
 Number  humidity_HT             "Humidity [%.1f %%]"        <humidity>      (gShellyHT)             { channel="mqtt:topic:mything:humidity" }
-Number  temperature_HT          "Temperature [%.2f %%]"     <temperature>   (gShellyHT)             { channel="mqtt:topic:mything:temperature" }
+Number  temperature_HT          "Temperature [%.2f °C]"     <temperature>   (gShellyHT)             { channel="mqtt:topic:mything:temperature" }
