@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sshpass -p "raspberry" ssh pi@192.168.0.99 "rm -f /etc/openhab2/items/*"
+sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/items/* pi@192.168.0.99:/etc/openhab2/items/
+
+sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/things/*.things pi@192.168.0.99:/etc/openhab2/things/
+
+sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/rules/*.rules pi@192.168.0.99:/etc/openhab2/rules/
+
+sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/sitemaps/*.sitemap pi@192.168.0.99:/etc/openhab2/sitemaps/
+
+
+sshpass -p "raspberry" ssh pi@192.168.0.99 "sudo chmod -R a=rwx /etc/openhab2/"
