@@ -1,13 +1,24 @@
 #!/bin/bash
 
-sshpass -p "raspberry" ssh pi@192.168.0.99 "rm -f /etc/openhab2/items/*"
-sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/items/* pi@192.168.0.99:/etc/openhab2/items/
+serverIp=192.168.0.99
+serverUser=pi
+serverPassword="raspberry"
+serverOpenhabPath="/etc/openhab2/"
 
-sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/things/*.things pi@192.168.0.99:/etc/openhab2/things/
+localOpenhabPath="$PWD/openhab2/"
 
-sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/rules/*.rules pi@192.168.0.99:/etc/openhab2/rules/
+folderArray=(
+    "items/"
+#    "things/"
+    "rules/"
+    "sitemaps/"
+    )
 
-sshpass -p "raspberry" scp /home/hoim/openhabian/openhab2/sitemaps/*.sitemap pi@192.168.0.99:/etc/openhab2/sitemaps/
+for folder in "${folderArray[@]}"
+do
+    echo "Update Source: $localOpenhabPath$folder Destination: $serverOpenhabPath$folder"
+	sshpass -p $serverPassword ssh $serverUser@$serverIp "rm -f $serverOpenhabPath$folder"
+    sshpass -p $serverPassword scp $localOpenhabPath$folder* $serverUser@$serverIp:$serverOpenhabPath$folder
+    sshpass -p $serverPassword ssh $serverUser@$serverIp "sudo chmod -R a=rwx $serverOpenhabPath$folder"
+done
 
-
-sshpass -p "raspberry" ssh pi@192.168.0.99 "sudo chmod -R a=rwx /etc/openhab2/"
