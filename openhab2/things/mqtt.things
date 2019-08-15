@@ -7,4 +7,3 @@ Bridge mqtt:broker:myUnsecureBroker [ host="127.0.0.1", secure=false ]
         Type number : temperature "Temperature"     [ stateTopic="shellies/shellyht-5A8B14/sensor/temperature", commandTopic="" ]
     }
 }
-
