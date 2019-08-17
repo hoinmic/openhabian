@@ -1,10 +1,10 @@
-String  dehumidifier_relayStatus      "Relais Status [%s]"        <poweroutlet>   (gHumidifier)           { http="<[http://192.168.0.100/report:3000:JSONPATH($.relay)]" }
-Number  dehumidifier_power            "Power [%.1f W]"            <poweroutlet>   (gHumidifier, gPower)   { http="<[http://192.168.0.100/report:3000:JSONPATH($.power)]" }
-Number  dehumidifier_temperature      "Temperature [%.1f °C]"     <temperature>   (gHumidifier)           { http="<[http://192.168.0.100/temp:3000:JSONPATH($.compensated)]" }
-Switch  dehumidifier_switch           "Remote Control [%s]"       <poweroutlet>   (gHumidifier, gSwitch)  { http=">[ON:GET:http://192.168.0.100/relay?state=1] >[OFF:GET:http://192.168.0.100/relay?state=0]" }
-Switch  dehumidifier_network_status   "Network Status [%s]"       <poweroutlet>   (gHumidifier, gNetwork) { channel="network:pingdevice:dehumidifier:online" }
-Number  dehumidifier_latency          "Latency [%d ms]"           <time>          (gHumidifier, gPing)    { channel="network:pingdevice:dehumidifier:latency" }
+String  dehumidifier_relayStatus      "Relais Status [%s]"        <fan>           (gLaundry)           { http="<[http://192.168.0.100/report:3000:JSONPATH($.relay)]" }
+Number  dehumidifier_power            "Power [%.1f W]"            <fan>           (gLaundry, gPower)   { http="<[http://192.168.0.100/report:3000:JSONPATH($.power)]" }
+Number  dehumidifier_temperature      "Temperature [%.1f °C]"     <temperature>   (gLaundry)           { http="<[http://192.168.0.100/temp:3000:JSONPATH($.compensated)]" }
+Switch  dehumidifier_switch           "Remote Control [%s]"       <switch>        (gLaundry, gSwitch)  { http=">[ON:GET:http://192.168.0.100/relay?state=1] >[OFF:GET:http://192.168.0.100/relay?state=0]" }
+Switch  dehumidifier_network_status   "Network Status [%s]"       <network>           (gLaundry, gNetwork) { channel="network:pingdevice:dehumidifier:online" }
+Number  dehumidifier_latency          "Latency [%d ms]"           <time>          (gLaundry, gPing)    { channel="network:pingdevice:dehumidifier:latency" }
 
-Number  battery_htShelly_01           "Battery level [%d %%]"     <battery>       (gShellyHT)             { channel="mqtt:topic:htShelly_01:battery" } 
-Number  humidity_htShelly_01          "Humidity [%.1f %%]"        <humidity>      (gShellyHT)             { channel="mqtt:topic:htShelly_01:humidity" }
-Number  temperature_htShelly_01       "Temperature [%.2f °C]"     <temperature>   (gShellyHT)             { channel="mqtt:topic:htShelly_01:temperature" }
+Number  battery_htShelly_01           "Battery level [%d %%]"     <battery>       (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:battery" } 
+Number  humidity_htShelly_01          "Humidity [%.1f %%]"        <humidity>      (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:humidity" }
+Number  temperature_htShelly_01       "Temperature [%.2f °C]"     <temperature>   (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:temperature" }

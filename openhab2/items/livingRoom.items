@@ -1,13 +1,17 @@
-Switch  floorlamp_switch        "Remote Control [%s]"       <poweroutlet>   (gHumidifier, gSwitch)  { http=">[ON:GET:http://192.168.0.101/relay?state=1] >[OFF:GET:http://192.168.0.101/relay?state=0]" }
-Switch  floorlamp_network       "Network Status [%s]"       <poweroutlet>   (gHumidifier, gNetwork) { channel="network:pingdevice:floorlamp:online" }
-Number  floorlamp_latency       "Latency [%d ms]"           <time>          (gHumidifier, gPing)    { channel="network:pingdevice:floorlamp:latency" }
+Switch  floorlamp_switch        "Remote Control [%s]"    <light>         (gLivingRoom, gSwitch)  { http=">[ON:GET:http://192.168.0.101/relay?state=1] >[OFF:GET:http://192.168.0.101/relay?state=0]" }
+Switch  floorlamp_network       "Network Status [%s]"    <network>   (gLivingRoom, gNetwork) { channel="network:pingdevice:floorlamp:online" }
+Number  floorlamp_latency       "Latency [%d ms]"        <time>          (gLivingRoom, gPing)    { channel="network:pingdevice:floorlamp:latency" }
 
 
-String LaMetricInfo             "Info Message"               { channel="lametrictime:device:lametric_01:info" }
-Switch LaMetricInfo_switch      "Notify Info"
-String LaMetricWarning          "Warning Message"            { channel="lametrictime:device:lametric_01:warning" }
-Switch LaMetricWarning_switch   "Notify Warning"
-String LaMetricAlert            "Alert Message"              { channel="lametrictime:device:lametric_01:alert" }
-Switch LaMetricAlert_switch     "Notify Alert"
+String LaMetricInfo             "Info Message"      <projector>   (gLivingRoom)    { channel="lametrictime:device:lametric_01:info" }
+Switch LaMetricInfo_switch      "Notify Info"       <projector>   (gLivingRoom)
+String LaMetricWarning          "Warning Message"   <projector>   (gLivingRoom)    { channel="lametrictime:device:lametric_01:warning" }
+Switch LaMetricWarning_switch   "Notify Warning"    <projector>   (gLivingRoom)
+String LaMetricAlert            "Alert Message"     <projector>   (gLivingRoom)    { channel="lametrictime:device:lametric_01:alert" }
+Switch LaMetricAlert_switch     "Notify Alert"      <projector>   (gLivingRoom)
+     
+Player RadioControl             "Player"      <receiver>      (gLivingRoom)     { channel="lametrictime:radioApp:lametric_01:radio:control" }
+Dimmer DeviceVolume             "Volume"      <soundvolume>   (gLivingRoom)     { channel="lametrictime:device:lametric_01:volume" }
 
-Player RadioControl             "Player"                     { channel="lametrictime:radioApp:lametric_01:radio:control" }
+Switch  lametric_network        "Network Status [%s]"   <network>   (gLivingRoom, gNetwork) { channel="network:pingdevice:lametric:online" }
+Number  lametric_latency        "Latency [%d ms]"       <time>          (gLivingRoom, gPing)    { channel="network:pingdevice:lametric:latency" }
