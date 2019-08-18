@@ -1,3 +1,4 @@
+// Dehumidifier
 String  dehumidifier_relayStatus      "Relais Status [%s]"        <fan>           (gLaundry)           { http="<[http://192.168.0.100/report:3000:JSONPATH($.relay)]" }
 Number  dehumidifier_power            "Power [%.1f W]"            <fan>           (gLaundry, gPower)   { http="<[http://192.168.0.100/report:3000:JSONPATH($.power)]" }
 Number  dehumidifier_temperature      "Temperature [%.1f °C]"     <temperature>   (gLaundry)           { http="<[http://192.168.0.100/temp:3000:JSONPATH($.compensated)]" }
@@ -5,6 +6,7 @@ Switch  dehumidifier_switch           "Remote Control [%s]"       <switch>      
 Switch  dehumidifier_network_status   "Network Status [%s]"       <network>       (gLaundry, gNetwork) { channel="network:pingdevice:dehumidifier:online" }
 Number  dehumidifier_latency          "Latency [%d ms]"           <time>          (gLaundry, gPing)    { channel="network:pingdevice:dehumidifier:latency" }
 
+// Humidity sensor
 Number  battery_htShelly_01           "Battery level [%d %%]"     <battery>       (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:battery" } 
 Number  humidity_htShelly_01          "Humidity [%.1f %%]"        <humidity>      (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:humidity" }
 Number  temperature_htShelly_01       "Temperature [%.2f °C]"     <temperature>   (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:temperature" }

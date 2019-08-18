@@ -1,11 +1,10 @@
 sitemap house label="Main Menu"
 {
-	Frame label="Demo" icon="washingmachine" {
-        Setpoint item=MaxHumidity label="Kitchen [%d %%]" minValue=0 maxValue=100 step=5
-        Text    item=dehumidifier_relayStatus
-        Switch  item=dehumidifier_switch
+	Frame label="Laundry" icon="washingmachine" {
         Text    item=battery_htShelly_01 visibility=[battery_htShelly_01<30]
         Text    item=humidity_htShelly_01
-        Text    item=temperature_htShelly_01
+        Text    item=dehumidifier_relayStatus
+        Setpoint item=MaxHumidity label="Kitchen [%d %%]" minValue=0 maxValue=100 step=5
+        Switch  item=dehumidifier_switch
 	}
 }
