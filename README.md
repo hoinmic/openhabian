@@ -22,3 +22,4 @@ ToDo:
 - Dehumidifier regulation
 - Absence algorithm
 - Usage of Max-Humidity Setpoint
+- Telegram message

@@ -5,7 +5,7 @@ then
   var Number day = now.getDayOfWeek()
   var Number hour = now.getHourOfDay()
 
-  logInfo("lowTariff", "Weekday " + day)
+  logInfo("lowTariff", "Weekday: " + day + "Hour: " + hour)
 
   // Low Tariff EWZ
   if (((day == 1) && ((hour < 7) || (hour > 20))) ||  // Monday
@@ -16,10 +16,10 @@ then
       ((day == 6) && ((hour < 7) || (hour > 13))) ||  // Saturday
       ((day == 7)))                                   // Sunday
     {
-      low_tariff.state = ON
+      low_tariff.postUpdate("TRUE")
     }
     else
     {
-      low_tariff.state = OFF
+      low_tariff.postUpdate("FALSE")
     }
 end

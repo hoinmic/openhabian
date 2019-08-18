@@ -1,5 +1,5 @@
 // Dehumidifier
-String  dehumidifier_relayStatus      "Relais Status [%s]"        <fan>           (gLaundry)           { http="<[http://192.168.0.100/report:3000:JSONPATH($.relay)]" }
+String  dehumidifier_relay            "Relais Status [%s]"        <fan>           (gLaundry)           { http="<[http://192.168.0.100/report:3000:JSONPATH($.relay)]" }
 Number  dehumidifier_power            "Power [%.1f W]"            <fan>           (gLaundry, gPower)   { http="<[http://192.168.0.100/report:3000:JSONPATH($.power)]" }
 Number  dehumidifier_temperature      "Temperature [%.1f °C]"     <temperature>   (gLaundry)           { http="<[http://192.168.0.100/temp:3000:JSONPATH($.compensated)]" }
 Switch  dehumidifier_network_status   "Network Status [%s]"       <network>       (gLaundry, gNetwork) { channel="network:pingdevice:dehumidifier:online" }

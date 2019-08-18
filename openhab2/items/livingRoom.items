@@ -1,4 +1,6 @@
 // Floorlamp
+String  floorlamp_relay         "Relais Status [%s]"     <fan>       (gLivingRoom)           { http="<[http://192.168.0.101/report:3000:JSONPATH($.relay)]" }
+Number  floorlamp_power         "Power [%.1f W]"         <fan>       (gLivingRoom, gPower)   { http="<[http://192.168.0.101/report:3000:JSONPATH($.power)]" }
 Switch  floorlamp_switch        "Remote Control [%s]"    <light>     (gLivingRoom, gSwitch)  { http=">[ON:GET:http://192.168.0.101/relay?state=1] >[OFF:GET:http://192.168.0.101/relay?state=0]" }
 Switch  floorlamp_network       "Network Status [%s]"    <network>   (gLivingRoom, gNetwork) { channel="network:pingdevice:floorlamp:online" }
 Number  floorlamp_latency       "Latency [%d ms]"        <time>      (gLivingRoom, gPing)    { channel="network:pingdevice:floorlamp:latency" }
