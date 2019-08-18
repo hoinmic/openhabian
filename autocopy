@@ -1,0 +1,32 @@
+#!/bin/bash
+
+serverIp=192.168.0.99
+serverUser=pi
+serverPassword="raspberry"
+serverOpenhabPath="/etc/openhab2/"
+
+localOpenhabPath="$PWD/openhab2/"
+
+folderArray=(
+#    "html/"
+#    "icons/"
+    "items/"
+#    "persistence/"
+    "rules/"
+#    "scripts/"
+#    "services/"
+    "sitemaps/"
+#    "sounds/"
+#    "things/"
+#    "transform/"
+    )
+
+for folder in "${folderArray[@]}"
+do
+    echo "Update Source: $localOpenhabPath$folder Destination: $serverOpenhabPath$folder"
+#	sshpass -p $serverPassword ssh $serverUser@$serverIp "rm -rf $serverOpenhabPath$folder*"
+    sshpass -p $serverPassword scp $localOpenhabPath$folder* $serverUser@$serverIp:$serverOpenhabPath$folder
+#    sshpass -p $serverPassword ssh $serverUser@$serverIp "sudo chmod -R a=rwx $serverOpenhabPath$folder"
+done
+
+#sshpass -p $serverPassword ssh $serverUser@$serverIp "sudo systemctl restart openhab2.service"

@@ -1,9 +1,9 @@
-# openhabian
+# Openhab on a raspberrypi 3b
 
 Installations on RPI:
 -vim
 
-Check the access mod of folder:
+Check the access (mod) of folder:
 etc/openhab2/
 
 Required bindings:
@@ -16,3 +16,10 @@ Required misc
 
 Required transformations:
 - JSONPath Transformation
+
+ToDo:
+- Define "low tariff" for current consumption
+- Dehumidifier regulation
+- Absence algorithm
+- Usage of Max-Humidity Setpoint
+- 
