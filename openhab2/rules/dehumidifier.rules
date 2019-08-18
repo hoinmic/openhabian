@@ -1,0 +1,36 @@
+// User Interface
+rule "Turn OFF"
+when
+  Item dehumidifier_switch changed to OFF
+then
+  dehumidifier_switch.sendCommand(OFF)
+end
+
+rule "Turn ON"
+when
+  Item dehumidifier_switch changed to ON
+then
+  dehumidifier_switch.sendCommand(ON)
+end
+
+// Handle myStorm button status
+rule "Local button"
+when
+  Item myStromString changed
+then
+  if (myStromString.state.toString == "true") {
+    dehumidifier_switch.state = ON
+    logInfo("dehumidifier", "Locally turned ON")
+  else { 
+    dehumidifier_switch.state = OFF
+    logInfo("dehumidifier", "Locally turned OFF")
+  }
+end
+
+// Exceed maximum humidity
+rule "Maximum Humidity"
+when
+  Item humidity_htShelly_01 > maxHumidity
+then
+  dehumidifier_switch.sendCommand(ON)
+end
