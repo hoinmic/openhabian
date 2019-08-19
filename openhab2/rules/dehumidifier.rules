@@ -2,8 +2,18 @@ import org.openhab.model.script.actions.Timer
 
 var Timer timer = null
 
+//------------------------------------------------------------
+// Startup
+rule "Startup"
+when
+  System started
+then
+  dehumidifier_switch.sendCommand(OFF)
+  maxHumidity = 70
+end
 
-// User Interface
+//------------------------------------------------------------
+// Power switch changes
 rule "Turn OFF"
 when
   Item dehumidifier_switch changed to OFF
@@ -27,7 +37,8 @@ then
   }
 end
 
-// Handle local button (power switch)
+//------------------------------------------------------------
+// Manually action: Handle local button (power switch)
 rule "Local button"
 when
   Item dehumidifier_relay changed
@@ -48,7 +59,8 @@ then
   }
 end
 
-// Close to maximum humidity (low tariff)
+//------------------------------------------------------------
+// Automatic action: Close to maximum humidity (low tariff)
 rule "Maximum Humidity"
 when
   Item humidity_htShelly_01 changed or
@@ -62,7 +74,8 @@ then
   }
 end
 
-// Exceed maximum humidity (tariff doesn't matter)
+//------------------------------------------------------------
+// Automatic action: Exceed maximum humidity (tariff doesn't matter)
 rule "Maximum Humidity"
 when
   Item humidity_htShelly_01 > maxHumidity

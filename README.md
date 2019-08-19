@@ -1,7 +1,9 @@
-# Openhab on a raspberrypi 3b
+# Lightweight Openhab on a raspberrypi 3b
 
 Installations on RPI:
--vim
+- openhab
+- java
+- vim
 
 Check the access (mod) of folder:
 etc/openhab2/
@@ -17,9 +19,13 @@ Required misc
 Required transformations:
 - JSONPath Transformation
 
+Autocopy to RPI by script:
+- autocopy
+
 ToDo:
 - Define "low tariff" for current consumption
 - Dehumidifier regulation
+- Dehumidifier status (Normal operation, Water full, Connection problem)
 - Absence algorithm
 - Usage of Max-Humidity Setpoint
 - Telegram message
