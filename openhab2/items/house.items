@@ -1,11 +1,13 @@
 // Mobile Martina
-Switch  mobile_martina_network     "Network Status [%s]"    <network>   (gMobile, gNetwork) { channel="network:pingdevice:mobile_martina:online" }
-Number  mobile_martina_latency     "Latency [%d ms]"        <time>      (gMobile, gPing)    { channel="network:pingdevice:mobile_martina:latency" }
+Switch  mobile_martina_network     "Network Status [%s]"    <network>   (gHouse, gMobile, gNetwork) { channel="network:pingdevice:mobile_martina:online" }
+Number  mobile_martina_latency     "Latency [%d ms]"        <time>      (gHouse, gMobile, gPing)    { channel="network:pingdevice:mobile_martina:latency" }
 
 // Mobile Michael
-Switch  mobile_michael_network     "Network Status [%s]"    <network>   (gMobile, gNetwork) { channel="network:pingdevice:mobile_michael:online" }
-Number  mobile_michael_latency     "Latency [%d ms]"        <time>      (gMobile, gPing)    { channel="network:pingdevice:mobile_michael:latency" }
+Switch  mobile_michael_network     "Network Status [%s]"    <network>   (gHouse, gMobile, gNetwork) { channel="network:pingdevice:mobile_michael:online" }
+Number  mobile_michael_latency     "Latency [%d ms]"        <time>      (gHouse, gMobile, gPing)    { channel="network:pingdevice:mobile_michael:latency" }
 
+// Absence
+String  absence     "Absence [%s]"           <siren>     (gHouse)
 
 // Current low tariff
 String  low_tariff        "Low Tariff [%s]"        <moon>

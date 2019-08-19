@@ -1,0 +1,55 @@
+//------------------------------------------------------------
+// Startup
+rule "Startup"
+when
+  System started
+then
+  floorlamp_switch.sendCommand(OFF)
+end
+
+//------------------------------------------------------------
+// Power switch changes
+rule "Turn OFF"
+when
+  Item floorlamp_switch changed to OFF
+then
+  floorlamp_switch.sendCommand(OFF)
+end
+
+rule "Turn ON"
+when
+  Item floorlamp_switch changed to ON
+then
+  floorlamp_switch.sendCommand(ON)
+end
+
+//------------------------------------------------------------
+// Manually action: Handle local button (power switch)
+rule "Local button"
+when
+  Item floorlamp_relay changed
+then
+  // Manually turned on?
+  if ((floorlamp_relay.state.toString == "true") &&
+      (floorlamp_switch.state == OFF ))
+  {
+    floorlamp_switch.postUpdate(ON)
+    logInfo("illumination", "Locally turned ON")
+  }
+  // Manually turned off?
+  if ((floorlamp_relay.state.toString == "false") &&
+      (floorlamp_switch.state == ON ))
+  {
+    floorlamp_switch.postUpdate(OFF)
+    logInfo("illumination", "Locally turned OFF")
+  }
+end
+
+//------------------------------------------------------------
+// Automatic action: Absence of family and sunset
+rule "Illumination animation"
+when
+  Item absence changed
+then
+  
+end

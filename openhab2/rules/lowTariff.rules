@@ -26,9 +26,11 @@ then
       ((day == 7)))                                   // Sunday
     {
       low_tariff.postUpdate("TRUE")
+      logInfo("lowTariff", "Low tariff")
     }
     else
     {
       low_tariff.postUpdate("FALSE")
+      logInfo("lowTariff", "High tariff")
     }
 end

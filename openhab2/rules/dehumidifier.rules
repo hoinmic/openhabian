@@ -3,6 +3,7 @@ import org.openhab.model.script.actions.Timer
 var Timer timer = null
 
 val MAX_HUMIDITY = 70
+val DEHUMIDIFIER_ON_TIME = 60*4
 
 
 //------------------------------------------------------------
@@ -34,7 +35,7 @@ then
   // After a timeout, turn the dehumidifier off
   (if timer === null)
   {
-    timer = createTimer(now.plusMinutes(60*4)) [|
+    timer = createTimer(now.plusMinutes(DEHUMIDIFIER_ON_TIME)) [|
           dehumidifier_switch.postUpdate(OFF)
           timer = null   // reset the timer
       ]
