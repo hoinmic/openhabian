@@ -3,7 +3,10 @@ import org.openhab.model.script.actions.Timer
 var Timer timer = null
 
 val MAX_HUMIDITY = 70
+<<<<<<< HEAD
 val DEHUMIDIFIER_ON_TIME = 60*4
+=======
+>>>>>>> de5f1b53ae29227dcfe26148ede069dc52005561
 
 
 //------------------------------------------------------------
