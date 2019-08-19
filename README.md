@@ -23,7 +23,6 @@ Autocopy to RPI by script:
 - autocopy
 
 ToDo:
-- Define "low tariff" for current consumption
 - Dehumidifier regulation
 - Dehumidifier status (Normal operation, Water full, Connection problem)
 - Absence algorithm
