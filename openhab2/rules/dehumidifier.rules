@@ -2,6 +2,9 @@ import org.openhab.model.script.actions.Timer
 
 var Timer timer = null
 
+val MAX_HUMIDITY = 70
+
+
 //------------------------------------------------------------
 // Startup
 rule "Startup"
@@ -9,7 +12,8 @@ when
   System started
 then
   dehumidifier_switch.sendCommand(OFF)
-  maxHumidity = 70
+  maxHumidity = MAX_HUMIDITY
+  dehumidifier_status.postUpdate("OK")
 end
 
 //------------------------------------------------------------
@@ -60,7 +64,7 @@ then
 end
 
 //------------------------------------------------------------
-// Automatic action: Close to maximum humidity (low tariff)
+// Automatic action: Close to maximum humidity in room (low tariff)
 rule "Maximum Humidity"
 when
   Item humidity_htShelly_01 changed or
@@ -75,7 +79,7 @@ then
 end
 
 //------------------------------------------------------------
-// Automatic action: Exceed maximum humidity (tariff doesn't matter)
+// Automatic action: Exceed maximum humidity in room
 rule "Maximum Humidity"
 when
   Item humidity_htShelly_01 > maxHumidity
@@ -84,5 +88,33 @@ then
   {
     dehumidifier_switch.postUpdate(ON)
     logInfo("dehumidifier", "Exceed maximum humidity. Humidity: " + humidity_htShelly_01)
+  }
+end
+
+
+//------------------------------------------------------------
+// Dehumidifier Status
+rule "Status Dehumidifier"
+when
+  Item dehumidifier_power changed or
+  Item dehumidifier_switch changed
+then
+  if (dehumidifier_switch.state == ON )
+  {
+    if (dehumidifier_power > 400)
+    {
+      dehumidifier_status.postUpdate("OK")
+      logInfo ("dehumidifier", "Dehumidifier is working in normal range: "+dehumidifier_power)
+    } 
+    else if (dehumidifier_power > 50)
+    {
+      dehumidifier_status.postUpdate("Water tank full")
+      logInfo ("dehumidifier", "Water tank full: "+dehumidifier_power)
+    }
+    else
+    {
+      dehumidifier_status.postUpdate("Dehumidifier Error")
+      logInfo ("dehumidifier", "Dehumidifier Error: "+dehumidifier_power)
+    }
   }
 end

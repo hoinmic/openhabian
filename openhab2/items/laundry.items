@@ -15,3 +15,4 @@ Switch  dehumidifier_switch           "Remote Control [%s]"       <switch>      
 
 // Variables
 Number  maxHumidity                   "MaxHumidity [%d %%]"       <humidity>      (gLaundry, gUserDefined)
+String  dehumidifier_status           "Dehumidifier Status [%s]"  <siren>         (gLaundry)
