@@ -3,10 +3,9 @@ import org.openhab.model.script.actions.Timer
 var Timer timer = null
 
 val MAX_HUMIDITY = 70
-<<<<<<< HEAD
 val DEHUMIDIFIER_ON_TIME = 60*4
-=======
->>>>>>> de5f1b53ae29227dcfe26148ede069dc52005561
+val DEHUMIDIFIER_MIN_POWER_CONSUMPTION = 400
+val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL = 50
 
 
 //------------------------------------------------------------
@@ -105,12 +104,12 @@ when
 then
   if (dehumidifier_switch.state == ON )
   {
-    if (dehumidifier_power > 400)
+    if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_CONSUMPTION)
     {
       dehumidifier_status.postUpdate("OK")
       logInfo ("dehumidifier", "Dehumidifier is working in normal range: "+dehumidifier_power)
     } 
-    else if (dehumidifier_power > 50)
+    else if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL)
     {
       dehumidifier_status.postUpdate("Water tank full")
       logInfo ("dehumidifier", "Water tank full: "+dehumidifier_power)

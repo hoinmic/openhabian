@@ -3,15 +3,12 @@
 Installations on RPI:
 - openhab
 - java
-- vim
-
-Check the access (mod) of folder:
-etc/openhab2/
 
 Required bindings:
 - Network Binding
 - HTTP Binding
 - MQTT Binding
+- Astro binding
 
 Required misc
 - Embedded MQTT Broker
@@ -19,8 +16,9 @@ Required misc
 Required transformations:
 - JSONPath Transformation
 
-Autocopy to RPI by script:
-- autocopy
+Additional:
+- Check the access (mod) of folder:
+- autocopy script (Autocopy to RPI)
 
 ToDo:
 - Dehumidifier regulation
