@@ -1,3 +1,4 @@
+val logName = "absence"
 // Startup
 rule "Startup"
 when
@@ -16,13 +17,13 @@ then
       (mobile_michael_network.state.toString == "OFF"))
   {
     absence.postUpdate("TRUE")
-    logInfo("absence", "Nobody at home")
+    logInfo(logName, "Nobody at home")
 
   }
   else
   {
     absence.postUpdate("FALSE")
-    logInfo("absence", "Someone at home")
+    logInfo(logName, "Someone at home")
   }
 end
 

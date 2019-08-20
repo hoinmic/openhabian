@@ -1,3 +1,4 @@
+val logName = "illumination"
 //------------------------------------------------------------
 // Startup
 rule "Startup"
@@ -34,22 +35,29 @@ then
       (floorlamp_switch.state == OFF ))
   {
     floorlamp_switch.postUpdate(ON)
-    logInfo("illumination", "Locally turned ON")
+    logInfo(logName, "Locally turned ON")
   }
   // Manually turned off?
   if ((floorlamp_relay.state.toString == "false") &&
       (floorlamp_switch.state == ON ))
   {
     floorlamp_switch.postUpdate(OFF)
-    logInfo("illumination", "Locally turned OFF")
+    logInfo(logName, "Locally turned OFF")
   }
 end
 
 //------------------------------------------------------------
 // Automatic action: Absence of family and sunset
-rule "Illumination animation"
+rule "Sunset Rule"
 when
-  Item absence changed
+    Channel 'astro:sun:local:set#event' triggered START
 then
-  
+    
+end
+
+rule "Sunrise Rule"
+when
+    Channel 'astro:sun:local:rise#event' triggered START
+then
+    
 end

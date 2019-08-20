@@ -1,3 +1,4 @@
+val logName = "lowTariff"
 // Startup
 rule "Startup"
 when
@@ -14,7 +15,7 @@ then
   var Number day = now.getDayOfWeek()
   var Number hour = now.getHourOfDay()
 
-  logInfo("lowTariff", "Weekday: " + day + "Hour: " + hour)
+  logInfo(logName, "Weekday: " + day + "Hour: " + hour)
 
   // Low Tariff EWZ
   if (((day == 1) && ((hour < 7) || (hour > 20))) ||  // Monday
@@ -26,11 +27,11 @@ then
       ((day == 7)))                                   // Sunday
     {
       low_tariff.postUpdate("TRUE")
-      logInfo("lowTariff", "Low tariff")
+      logInfo(logName, "Low tariff")
     }
     else
     {
       low_tariff.postUpdate("FALSE")
-      logInfo("lowTariff", "High tariff")
+      logInfo(logName, "High tariff")
     }
 end

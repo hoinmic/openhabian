@@ -1,5 +1,7 @@
 import org.openhab.model.script.actions.Timer
 
+val logName = "dehumidifier"
+
 var Timer timer = null
 
 val MAX_HUMIDITY = 70
@@ -55,14 +57,14 @@ then
       (dehumidifier_switch.state == OFF ))
   {
     dehumidifier_switch.postUpdate(ON)
-    logInfo("dehumidifier", "Locally turned ON")
+    logInfo(logName, "Locally turned ON")
   }
   // Manually turned off?
   if ((dehumidifier_relay.state.toString == "false") &&
       (dehumidifier_switch.state == ON ))
   {
     dehumidifier_switch.postUpdate(OFF)
-    logInfo("dehumidifier", "Locally turned OFF")
+    logInfo(logName, "Locally turned OFF")
   }
 end
 
@@ -77,7 +79,7 @@ then
       (low_tariff.state.toString == "TRUE"))
   {
     dehumidifier_switch.postUpdate(ON)
-    logInfo("dehumidifier", "Close to maximum humidity (low tariff). Humidity: " + humidity_htShelly_01)
+    logInfo(logName, "Close to maximum humidity (low tariff). Humidity: " + humidity_htShelly_01)
   }
 end
 
@@ -90,7 +92,7 @@ then
   if (humidity_htShelly_01 >= maxHumidity)
   {
     dehumidifier_switch.postUpdate(ON)
-    logInfo("dehumidifier", "Exceed maximum humidity. Humidity: " + humidity_htShelly_01)
+    logInfo(logName, "Exceed maximum humidity. Humidity: " + humidity_htShelly_01)
   }
 end
 
@@ -107,17 +109,17 @@ then
     if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_CONSUMPTION)
     {
       dehumidifier_status.postUpdate("OK")
-      logInfo ("dehumidifier", "Dehumidifier is working in normal range: "+dehumidifier_power)
+      logInfo (logName, "Dehumidifier is working in normal range: "+dehumidifier_power)
     } 
     else if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL)
     {
       dehumidifier_status.postUpdate("Water tank full")
-      logInfo ("dehumidifier", "Water tank full: "+dehumidifier_power)
+      logInfo (logName, "Water tank full: "+dehumidifier_power)
     }
     else
     {
       dehumidifier_status.postUpdate("Dehumidifier Error")
-      logInfo ("dehumidifier", "Dehumidifier Error: "+dehumidifier_power)
+      logInfo (logName, "Dehumidifier Error: "+dehumidifier_power)
     }
   }
 end
