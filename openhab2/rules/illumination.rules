@@ -50,14 +50,10 @@ end
 // Automatic action: Absence of family and sunset
 rule "Sunset Rule"
 when
-    Channel 'astro:sun:local:set#event' triggered START
-then
     
+then
+    // Convert the Astro Items to Joda DateTime
+  val sunrise = new DateTime(sunrise_Time.state.toString) 
+  val sunset = new DateTime(sunset_Time.state.toString)
 end
 
-rule "Sunrise Rule"
-when
-    Channel 'astro:sun:local:rise#event' triggered START
-then
-    
-end
