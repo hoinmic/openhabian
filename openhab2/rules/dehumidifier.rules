@@ -1,0 +1,125 @@
+import org.openhab.model.script.actions.Timer
+
+val logName = "dehumidifier"
+
+var Timer timer = null
+
+val MAX_HUMIDITY = 70
+val DEHUMIDIFIER_ON_TIME = 60*4
+val DEHUMIDIFIER_MIN_POWER_CONSUMPTION = 400
+val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL = 50
+
+
+//------------------------------------------------------------
+// Startup
+rule "Startup"
+when
+  System started
+then
+  dehumidifier_switch.sendCommand(OFF)
+  maxHumidity = MAX_HUMIDITY
+  dehumidifier_status.postUpdate("OK")
+end
+
+//------------------------------------------------------------
+// Power switch changes
+rule "Turn OFF"
+when
+  Item dehumidifier_switch changed to OFF
+then
+  dehumidifier_switch.sendCommand(OFF)
+end
+
+rule "Turn ON"
+when
+  Item dehumidifier_switch changed to ON
+then
+  dehumidifier_switch.sendCommand(ON)
+
+  // After a timeout, turn the dehumidifier off
+  (if timer === null)
+  {
+    timer = createTimer(now.plusMinutes(DEHUMIDIFIER_ON_TIME)) [|
+          dehumidifier_switch.postUpdate(OFF)
+          timer = null   // reset the timer
+      ]
+  }
+end
+
+//------------------------------------------------------------
+// Manually action: Handle local button (power switch)
+rule "Local button"
+when
+  Item dehumidifier_relay changed
+then
+  // Manually turned on?
+  if ((dehumidifier_relay.state.toString == "true") &&
+      (dehumidifier_switch.state == OFF ))
+  {
+    dehumidifier_switch.postUpdate(ON)
+    logInfo(logName, "Locally turned ON")
+  }
+  // Manually turned off?
+  if ((dehumidifier_relay.state.toString == "false") &&
+      (dehumidifier_switch.state == ON ))
+  {
+    dehumidifier_switch.postUpdate(OFF)
+    logInfo(logName, "Locally turned OFF")
+  }
+end
+
+//------------------------------------------------------------
+// Automatic action: Close to maximum humidity in room (low tariff)
+rule "Maximum Humidity"
+when
+  Item humidity_htShelly_01 changed or
+  Item low_tariff changed
+then
+  if ((humidity_htShelly_01 >= (maxHumidity - 5) &&
+      (low_tariff.state.toString == "TRUE"))
+  {
+    dehumidifier_switch.postUpdate(ON)
+    logInfo(logName, "Close to maximum humidity (low tariff). Humidity: " + humidity_htShelly_01)
+  }
+end
+
+//------------------------------------------------------------
+// Automatic action: Exceed maximum humidity in room
+rule "Maximum Humidity"
+when
+  Item humidity_htShelly_01 > maxHumidity
+then
+  if (humidity_htShelly_01 >= maxHumidity)
+  {
+    dehumidifier_switch.postUpdate(ON)
+    logInfo(logName, "Exceed maximum humidity. Humidity: " + humidity_htShelly_01)
+  }
+end
+
+
+//------------------------------------------------------------
+// Dehumidifier Status
+rule "Status Dehumidifier"
+when
+  Item dehumidifier_power changed or
+  Item dehumidifier_switch changed
+then
+  if (dehumidifier_switch.state == ON )
+  {
+    if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_CONSUMPTION)
+    {
+      dehumidifier_status.postUpdate("OK")
+      logInfo (logName, "Dehumidifier is working in normal range: "+dehumidifier_power)
+    } 
+    else if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL)
+    {
+      dehumidifier_status.postUpdate("Water tank full")
+      logInfo (logName, "Water tank full: "+dehumidifier_power)
+    }
+    else
+    {
+      dehumidifier_status.postUpdate("Dehumidifier Error")
+      logInfo (logName, "Dehumidifier Error: "+dehumidifier_power)
+    }
+  }
+end

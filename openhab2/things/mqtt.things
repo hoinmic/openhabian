@@ -1,3 +1,4 @@
+// Shelly HT sensor (Bridge to embedded MQTT broker)
 Bridge mqtt:broker:myUnsecureBroker [ host="127.0.0.1", secure=false ]
 {
     Thing mqtt:topic:htShelly_01 {

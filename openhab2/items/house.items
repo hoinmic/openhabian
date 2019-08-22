@@ -1,5 +1,20 @@
-Switch  mobile_martina_network     "Network Status [%s]"    <network>   (gMobile, gNetwork) { channel="network:pingdevice:mobile_martina:online" }
-Number  mobile_martina_latency     "Latency [%d ms]"        <time>      (gMobile, gPing)    { channel="network:pingdevice:mobile_martina:latency" }
+// Mobile Martina
+Switch  mobile_martina_network     "Network Status [%s]"    <network>   (gHouse, gMobile, gNetwork) { channel="network:pingdevice:mobile_martina:online" }
+Number  mobile_martina_latency     "Latency [%d ms]"        <time>      (gHouse, gMobile, gPing)    { channel="network:pingdevice:mobile_martina:latency" }
 
-Switch  mobile_michael_network     "Network Status [%s]"    <network>   (gMobile, gNetwork) { channel="network:pingdevice:mobile_michael:online" }
-Number  mobile_michael_latency     "Latency [%d ms]"        <time>      (gMobile, gPing)    { channel="network:pingdevice:mobile_michael:latency" }
+// Mobile Michael
+Switch  mobile_michael_network     "Network Status [%s]"    <network>   (gHouse, gMobile, gNetwork) { channel="network:pingdevice:mobile_michael:online" }
+Number  mobile_michael_latency     "Latency [%d ms]"        <time>      (gHouse, gMobile, gPing)    { channel="network:pingdevice:mobile_michael:latency" }
+
+// Absence
+String  absence     "Absence [%s]"           <siren>     (gHouse)
+
+// Current time
+String  timeOfDay "Current Time of Day [MAP(weather.map):%s]"  <time>      (gHouse)
+
+// Sun times
+DateTime  sunrise_Time       "Sunrise [%1$tH:%1$tM]"  <sunrise>     (gHouse)            { channel="astro:sun:home:rise#start" }
+DateTime  sunset_Time        "Sunset [%1$tH:%1$tM]"   <sunset>      (gHouse)            { channel="astro:sun:home:set#start" }
+
+// Current low tariff
+String  low_tariff        "Low Tariff [%s]"        <moon>         (gHouse)

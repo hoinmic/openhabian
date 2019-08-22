@@ -1,15 +1,14 @@
-# Openhab on a raspberrypi 3b
+# Lightweight Openhab on a raspberrypi 3b
 
 Installations on RPI:
--vim
-
-Check the access (mod) of folder:
-etc/openhab2/
+- openhab
+- java
 
 Required bindings:
 - Network Binding
 - HTTP Binding
 - MQTT Binding
+- Astro binding
 
 Required misc
 - Embedded MQTT Broker
@@ -17,9 +16,13 @@ Required misc
 Required transformations:
 - JSONPath Transformation
 
+Additional:
+- Check the access (mod) of folder:
+- autocopy script (Autocopy to RPI)
+
 ToDo:
-- Define "low tariff" for current consumption
 - Dehumidifier regulation
+- Dehumidifier status (Normal operation, Water full, Connection problem)
 - Absence algorithm
 - Usage of Max-Humidity Setpoint
-- 
+- Telegram message

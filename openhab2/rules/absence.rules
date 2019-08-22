@@ -1,0 +1,33 @@
+val logName = "absence"
+
+// Startup
+rule "Startup"
+when
+  System started
+then
+  absence.postUpdate("FALSE")
+end
+
+// Detection if no mobile is connected to the WiFi (All family members are out of the house)
+rule "Absence detection"
+when
+  mobile_martina_network changed or
+  mobile_michael_network changed
+then
+  if ((mobile_martina_network.state.toString == "OFF") && 
+      (mobile_michael_network.state.toString == "OFF"))
+  {
+    absence.postUpdate("TRUE")
+    logInfo(logName, "Nobody at home")
+
+  }
+  else
+  {
+    absence.postUpdate("FALSE")
+    logInfo(logName, "Someone at home")
+  }
+end
+
+
+
+
