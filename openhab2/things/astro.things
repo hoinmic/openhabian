@@ -1,15 +1,2 @@
 // Geolocation Mettmenstetten CH
-astro:sun:home  [ geolocation="47.243549,8.463280,468", interval=60 ]{
-    Channels:
-        Type rangeEvent : rise#event [
-            earliest="06:00",
-            latest="08:00"
-        ]
-}
-astro:sun:home  [ geolocation="47.243549,8.463280,468", interval=60 ]{
-    Channels:
-        Type rangeEvent : set#event [
-            earliest="17:00",
-            latest="22:00"
-        ]
-}
+astro:sun:home  [ geolocation="47.243549,8.463280,468"]

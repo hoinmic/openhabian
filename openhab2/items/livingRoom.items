@@ -1,9 +1,12 @@
 // Floorlamp
-String  floorlamp_relay         "Relais Status [%s]"     <fan>       (gLivingRoom)           { http="<[http://192.168.0.101/report:3000:JSONPATH($.relay)]" }
-Number  floorlamp_power         "Power [%.1f W]"         <fan>       (gLivingRoom, gPower)   { http="<[http://192.168.0.101/report:3000:JSONPATH($.power)]" }
-Switch  floorlamp_switch        "Remote Control [%s]"    <light>     (gLivingRoom, gSwitch)  { http=">[ON:GET:http://192.168.0.101/relay?state=1] >[OFF:GET:http://192.168.0.101/relay?state=0]" }
-Switch  floorlamp_network       "Network Status [%s]"    <network>   (gLivingRoom, gNetwork) { channel="network:pingdevice:floorlamp:online" }
-Number  floorlamp_latency       "Latency [%d ms]"        <time>      (gLivingRoom, gPing)    { channel="network:pingdevice:floorlamp:latency" }
+String  floorlamp_relay         "Relais Status [%s]"     <fan>         (gLivingRoom)           { http="<[http://192.168.0.101/report:10000:JSONPATH($.relay)]" }  // Update every 10s
+Number  floorlamp_power         "Power [%.1f W]"         <fan>         (gLivingRoom, gPower)   { http="<[http://192.168.0.101/report:10000:JSONPATH($.power)]" }  // Update every 10s
+Number  floorlamp_temperature   "Temperature [%.1f °C]"  <temperature> (gLivingRoom)           { http="<[http://192.168.0.101/temp:3600000:JSONPATH($.compensated)]" } // Update every 1h
+Switch  floorlamp_network       "Network Status [%s]"    <network>     (gLivingRoom, gNetwork) { channel="network:pingdevice:floorlamp:online" }
+Number  floorlamp_latency       "Latency [%d ms]"        <time>        (gLivingRoom, gPing)    { channel="network:pingdevice:floorlamp:latency" }
+
+// UI
+Switch  floorlamp_switch        "Remote Control [%s]"    <light>       (gLivingRoom, gSwitch)  { http=">[ON:GET:http://192.168.0.101/relay?state=1] >[OFF:GET:http://192.168.0.101/relay?state=0]" }
 
 // Lametric
 String LaMetricInfo             "Info Message"      <projector>   (gLivingRoom)    { channel="lametrictime:device:lametric_01:info" }

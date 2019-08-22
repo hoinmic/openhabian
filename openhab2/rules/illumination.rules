@@ -1,17 +1,10 @@
 val logName = "illumination"
-//------------------------------------------------------------
-// Startup
-rule "Startup"
-when
-  System started
-then
-  floorlamp_switch.sendCommand(OFF)
-end
 
 //------------------------------------------------------------
 // Power switch changes
 rule "Turn OFF"
 when
+  System started or
   Item floorlamp_switch changed to OFF
 then
   floorlamp_switch.sendCommand(OFF)
@@ -50,10 +43,16 @@ end
 // Automatic action: Absence of family and sunset
 rule "Sunset Rule"
 when
-    
+  Item timeOfDay changed
 then
-    // Convert the Astro Items to Joda DateTime
-  val sunrise = new DateTime(sunrise_Time.state.toString) 
-  val sunset = new DateTime(sunset_Time.state.toString)
+  if((timeOfDay.state == "MORNING") ||
+     (timeOfDay.state == "EVENING"))
+  {
+    floorlamp_switch.postUpdate(ON)
+  }
+  else
+  {
+    floorlamp_switch.postUpdate(OFF)
+  }
 end
 

@@ -1,4 +1,5 @@
 val logName = "absence"
+
 // Startup
 rule "Startup"
 when
