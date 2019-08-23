@@ -1,7 +1,0 @@
-// LaMetric
-Bridge lametrictime:device:lametric_01 [ host="192.168.0.149", apiKey="ksfjsdkfsksjfs" ]
-{
-    Thing radioApp     radio
-}
-
-Thing network:pingdevice:lametric [ hostname="192.168.0.149", retry=1, timeout=5000, refreshInterval=60000  ]
