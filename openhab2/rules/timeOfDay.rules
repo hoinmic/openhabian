@@ -34,7 +34,7 @@ end
 
 rule "Define the current time segment" 
 when
-  Time cron "0 0/1 * * * ?"   // every minute
+  Time cron "0 0/5 * * * ?"   // every five minutes
 then
 
   // Define the current time segment

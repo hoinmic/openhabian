@@ -24,7 +24,15 @@ then
   else
   {
     absence.postUpdate("FALSE")
-    logInfo(logName, "Someone at home")
+
+    if (mobile_martina_network.state.toString == "ON")
+    {
+      logInfo(logName, "Martina at home")
+    }
+    if (mobile_michael_network.state.toString == "ON")
+    {
+      logInfo(logName, "Michael at home")
+    }
   }
 end
 

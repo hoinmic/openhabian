@@ -8,6 +8,7 @@ when
   Item floorlamp_switch changed to OFF
 then
   floorlamp_switch.sendCommand(OFF)
+  logInfo(logName, "Send command turn off")
 end
 
 rule "Turn ON"
@@ -15,6 +16,7 @@ when
   Item floorlamp_switch changed to ON
 then
   floorlamp_switch.sendCommand(ON)
+  logInfo(logName, "Send command turn on")
 end
 
 //------------------------------------------------------------
@@ -45,14 +47,22 @@ rule "Sunset Rule"
 when
   Item timeOfDay changed
 then
-  if((timeOfDay.state == "MORNING") ||
-     (timeOfDay.state == "EVENING"))
+  if (absence.state == "TRUE")
   {
-    floorlamp_switch.postUpdate(ON)
+    if((timeOfDay.state == "MORNING") || (timeOfDay.state == "EVENING"))
+    {
+      floorlamp_switch.postUpdate(ON)
+      logInfo(logName, "Automatic turned on: Morning/Evening + nobody at home")
+    }
+    else
+    {
+      floorlamp_switch.postUpdate(OFF)
+      logInfo(logName, "Automatic turned off: nobody at home")
+    } 
   }
   else
   {
-    floorlamp_switch.postUpdate(OFF)
+    logInfo(logName, "No illumination change, someone at home")
   }
 end
 
