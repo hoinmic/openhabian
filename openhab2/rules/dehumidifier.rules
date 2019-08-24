@@ -4,10 +4,10 @@ val logName = "dehumidifier"
 
 var Timer timer = null
 
-val MAX_HUMIDITY = 70
-val DEHUMIDIFIER_ON_TIME = 60*4
-val DEHUMIDIFIER_MIN_POWER_CONSUMPTION = 400
-val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL = 50
+val MAX_HUMIDITY = 65
+val DEHUMIDIFIER_ON_TIME_H = 2
+val DEHUMIDIFIER_MIN_POWER_CONSUMPTION_W = 400
+val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W = 50
 
 
 //------------------------------------------------------------
@@ -28,6 +28,7 @@ when
   Item dehumidifier_switch changed to OFF
 then
   dehumidifier_switch.sendCommand(OFF)
+  logInfo(logName, "Send command turn off")
 end
 
 rule "Turn ON"
@@ -35,12 +36,14 @@ when
   Item dehumidifier_switch changed to ON
 then
   dehumidifier_switch.sendCommand(ON)
+  logInfo(logName, "Send command turn on")
 
   // After a timeout, turn the dehumidifier off
-  if (timer === null)
+  if (timer == null)
   {
-    timer = createTimer(now.plusMinutes(DEHUMIDIFIER_ON_TIME)) [|
+    timer = createTimer(now.plusHours(DEHUMIDIFIER_ON_TIME_H)) [|
           dehumidifier_switch.postUpdate(OFF)
+          logInfo(logName, "Timer expiration, turned OFF")
           timer = null   // reset the timer
       ]
   }
@@ -69,32 +72,44 @@ then
 end
 
 //------------------------------------------------------------
-// Automatic action: Close to maximum humidity in room (low tariff)
+// Automatic action: Exceed maximum humidity (low tariff)
 rule "Maximum Humidity"
 when
   Item humidity_htShelly_01 changed or
   Item low_tariff changed or
   Item maxHumidity changed
 then
-  if ((humidity_htShelly_01 >= (maxHumidity - 5)) &&
-      (low_tariff.state.toString == "TRUE"))
+  if (humidity_htShelly_01 >= maxHumidity)
   {
-    dehumidifier_switch.postUpdate(ON)
-    logInfo(logName, "Close to maximum humidity (low tariff). Humidity: " + humidity_htShelly_01)
+    if (low_tariff.state.toString == "TRUE")
+    {
+      dehumidifier_switch.postUpdate(ON)
+      logInfo(logName, "Start dehumidifier. Exceed maximum humidity. Low tariff. Humidity: " + humidity_htShelly_01)
+    }
+    else
+    {
+      dehumidifier_switch.postUpdate(OFF)
+      logInfo(logName, "Standby dehumidifier. High tariff. Humidity: " + humidity_htShelly_01)
+    }
+  }
+  else
+  {
+    logInfo(logName, "Humidity low. No action required. Humidity: " + humidity_htShelly_01)
   }
 end
 
 //------------------------------------------------------------
-// Automatic action: Exceed maximum humidity in room
+// Automatic action: Massive exceed maximum humidity
 rule "Maximum Humidity"
 when
   Item humidity_htShelly_01 changed or
-  Item maxHumidity changed
+  Item maxHumidity changed or
+  Item dehumidifier_switch changed    // if dehumidifier in some way get switched off (ex. timer expired ...)
 then
-  if (humidity_htShelly_01 >= maxHumidity)
+  if (humidity_htShelly_01 >= (maxHumidity+5))
   {
     dehumidifier_switch.postUpdate(ON)
-    logInfo(logName, "Exceed maximum humidity. Humidity: " + humidity_htShelly_01)
+    logInfo(logName, "Start dehumidifier. Massive exceed of maximum humidity. Humidity: " + humidity_htShelly_01)
   }
 end
 
@@ -108,20 +123,24 @@ when
 then
   if (dehumidifier_switch.state == ON )
   {
-    if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_CONSUMPTION)
+    if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_CONSUMPTION_W)
     {
       dehumidifier_status.postUpdate("OK")
-      logInfo (logName, "Dehumidifier is working in normal range: "+dehumidifier_power)
+      logInfo (logName, "Dehumidifier is working in normal range: "+dehumidifier_power+"W")
     } 
-    else if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL)
+    else if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W)
     {
       dehumidifier_status.postUpdate("Water tank full")
-      logInfo (logName, "Water tank full: "+dehumidifier_power)
+      logInfo (logName, "Water tank full: "+dehumidifier_power+"W")
     }
     else
     {
       dehumidifier_status.postUpdate("Dehumidifier Error")
-      logInfo (logName, "Dehumidifier Error: "+dehumidifier_power)
+      logInfo (logName, "Dehumidifier Error: "+dehumidifier_power+"W")
     }
+  }
+  else
+  {
+    logInfo (logName, "Dehumidifier off: "+dehumidifier_power+"W")
   }
 end
