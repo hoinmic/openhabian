@@ -45,7 +45,8 @@ end
 // Automatic action: Absence of family and sunset
 rule "Sunset Rule"
 when
-  Item timeOfDay changed
+  Item timeOfDay changed or
+  Item absence changed
 then
   if (absence.state == "TRUE")
   {

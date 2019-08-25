@@ -118,29 +118,37 @@ end
 // Dehumidifier Status
 rule "Status Dehumidifier"
 when
+  System started or
   Item dehumidifier_power changed or
   Item dehumidifier_switch changed
 then
-  if (dehumidifier_switch.state == ON )
+  if (dehumidifier_network_status.state.toString == "ON")
   {
-    if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_CONSUMPTION_W)
+    if (dehumidifier_switch.state == ON )
     {
-      dehumidifier_status.postUpdate("OK")
-      logInfo (logName, "Dehumidifier is working in normal range: "+dehumidifier_power+"W")
-    } 
-    else if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W)
-    {
-      dehumidifier_status.postUpdate("Water tank full")
-      logInfo (logName, "Water tank full: "+dehumidifier_power+"W")
+      if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_CONSUMPTION_W)
+      {
+        dehumidifier_status.postUpdate("OK")
+        logInfo (logName, "Dehumidifier is working in normal range: "+dehumidifier_power+"W")
+      } 
+      else if (dehumidifier_power > DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W)
+      {
+        dehumidifier_status.postUpdate("Water tank full")
+        logInfo (logName, "Water tank full: "+dehumidifier_power+"W")
+      }
+      else
+      {
+        dehumidifier_status.postUpdate("Dehumidifier Error")
+        logInfo (logName, "Dehumidifier Error: "+dehumidifier_power+"W")
+      }
     }
     else
     {
-      dehumidifier_status.postUpdate("Dehumidifier Error")
-      logInfo (logName, "Dehumidifier Error: "+dehumidifier_power+"W")
+      logInfo (logName, "Dehumidifier off: "+dehumidifier_power+"W")
     }
   }
   else
   {
-    logInfo (logName, "Dehumidifier off: "+dehumidifier_power+"W")
+    logInfo (logName, "No connection to dehumidifier switch")
   }
 end
