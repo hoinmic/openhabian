@@ -1,9 +1,9 @@
 val logName = "timeOfDay"
 
-val DateTime morningStart = null
-val DateTime dayStart = null
-val DateTime eveningStart = null
-val DateTime nightStart = null
+var DateTime morningStart = null
+var DateTime dayStart = null
+var DateTime eveningStart = null
+var DateTime nightStart = null
 
 // MORNING: 06:00 to sunrise; Note during some times of year sunrise is before 06:00
 // DAY: Sunrise to sunset

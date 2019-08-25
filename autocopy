@@ -17,7 +17,7 @@ folderArray=(
 #    "services/"
     "sitemaps/"
 #    "sounds/"
-    "things/"
+#    "things/"
 #    "transform/"
     )
 
