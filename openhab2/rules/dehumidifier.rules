@@ -15,7 +15,7 @@ val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W = 50
 
 //------------------------------------------------------------
 // Startup
-rule "Startup"
+rule "Startup Dehumidifier"
 when
   System started
 then
@@ -23,11 +23,12 @@ then
   sosHumidity.postUpdate(MAX_HUMIDITY + MAX_HUMIDITY_EXCEED)
   dehumidifier_status.postUpdate("OK")
   dehumidifier_switch.sendCommand(OFF)
+  logInfo(logName, "Variables initialized")
 end
 
 //------------------------------------------------------------
 // Power switch changes
-rule "Turn OFF"
+rule "Turn Dehumidifier OFF"
 when
   Item dehumidifier_switch changed to OFF
 then
@@ -35,7 +36,7 @@ then
   logInfo(logName, "Send command turn off")
 end
 
-rule "Turn ON"
+rule "Turn Dehumidifier ON"
 when
   Item dehumidifier_switch changed to ON
 then
@@ -55,7 +56,7 @@ end
 
 //------------------------------------------------------------
 // Manually action: Handle local button (power switch)
-rule "Local button"
+rule "Local Button Dehumidifier"
 when
   Item dehumidifier_relay changed
 then
@@ -77,7 +78,7 @@ end
 
 //------------------------------------------------------------
 // Automatic action: Exceed maximum humidity (low tariff)
-rule "Maximum Humidity"
+rule "Maximum Humidity Dehumidifier"
 when
   Item humidity_htShelly_01 changed or
   Item low_tariff changed or
@@ -104,7 +105,7 @@ end
 
 //------------------------------------------------------------
 // Automatic action: Massive exceed of maximum humidity
-rule "Update sos Humidity"
+rule "Update sos Humidity Dehumidifier"
 when
   Item maxHumidity changed
 then
@@ -124,12 +125,10 @@ then
   }
 end
 
-
 //------------------------------------------------------------
 // Dehumidifier Status
-rule "Status Dehumidifier"
+rule "Status Dehumidifier Dehumidifier"
 when
-  System started or
   Item dehumidifier_power changed or
   Item dehumidifier_switch changed
 then
