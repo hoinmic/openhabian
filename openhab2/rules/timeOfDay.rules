@@ -1,9 +1,9 @@
 val logName = "timeOfDay"
 
-val DateTime morningStart
-val DateTime dayStart
-val DateTime eveningStart
-val DateTime nightStart
+var DateTime morningStart = null
+var DateTime dayStart = null
+var DateTime eveningStart = null
+var DateTime nightStart = null
 
 // MORNING: 06:00 to sunrise; Note during some times of year sunrise is before 06:00
 // DAY: Sunrise to sunset
@@ -26,18 +26,18 @@ then
   eveningStart = new DateTime(sunset_Time.state.toString)
 
   // Publish the current state
-  logInfo(logName, "Calculated morning start: " + morningStart)
-  logInfo(logName, "Calculated day start: " + dayStart)
-  logInfo(logName, "Calculated evening start: " + eveningStart)
-  logInfo(logName, "Calculated night start: " + nightStart)
+  logInfo(logName, "Calculated morning start: " + morningStart.toString)
+  logInfo(logName, "Calculated day start: " + dayStart.toString)
+  logInfo(logName, "Calculated evening start: " + eveningStart.toString)
+  logInfo(logName, "Calculated night start: " + nightStart.toString)
 end
 
-rule "Calculate the time segment of the day" 
+rule "Define the current time segment" 
 when
-  Time cron "0 0/1 * * * ?"   // every minute
+  Time cron "0 0/5 * * * ?"   // every five minutes
 then
 
-  // Calculate the time segment of the day
+  // Define the current time segment
   var curr = "UNKNOWN"
   switch now {
   	case now.isAfter(morningStart)   && now.isBefore(dayStart):       curr = "MORNING"

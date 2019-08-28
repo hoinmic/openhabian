@@ -2,24 +2,26 @@ val logName = "illumination"
 
 //------------------------------------------------------------
 // Power switch changes
-rule "Turn OFF"
+rule "Turn OFF Illumination"
 when
   System started or
   Item floorlamp_switch changed to OFF
 then
   floorlamp_switch.sendCommand(OFF)
+  logInfo(logName, "Send command turn off")
 end
 
-rule "Turn ON"
+rule "Turn ON Illumination"
 when
   Item floorlamp_switch changed to ON
 then
   floorlamp_switch.sendCommand(ON)
+  logInfo(logName, "Send command turn on")
 end
 
 //------------------------------------------------------------
 // Manually action: Handle local button (power switch)
-rule "Local button"
+rule "Local button Illumination"
 when
   Item floorlamp_relay changed
 then
@@ -41,18 +43,27 @@ end
 
 //------------------------------------------------------------
 // Automatic action: Absence of family and sunset
-rule "Sunset Rule"
+rule "Sunset Rule Illumination"
 when
-  Item timeOfDay changed
+  Item timeOfDay changed or
+  Item absence changed
 then
-  if((timeOfDay.state == "MORNING") ||
-     (timeOfDay.state == "EVENING"))
+  if (absence.state == "TRUE")
   {
-    floorlamp_switch.postUpdate(ON)
+    if((timeOfDay.state == "MORNING") || (timeOfDay.state == "EVENING"))
+    {
+      floorlamp_switch.postUpdate(ON)
+      logInfo(logName, "Automatic turned on: Morning/Evening + nobody at home")
+    }
+    else
+    {
+      floorlamp_switch.postUpdate(OFF)
+      logInfo(logName, "Automatic turned off: nobody at home")
+    } 
   }
   else
   {
-    floorlamp_switch.postUpdate(OFF)
+    logInfo(logName, "No illumination change, someone at home")
   }
 end
 

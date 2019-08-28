@@ -19,6 +19,7 @@ Required transformations:
 Additional:
 - Check the access (mod) of folder:
 - autocopy script (Autocopy to RPI)
+- Set time on RPI
 
 ToDo:
 - Dehumidifier regulation
@@ -26,3 +27,4 @@ ToDo:
 - Absence algorithm
 - Usage of Max-Humidity Setpoint
 - Telegram message
+- LaMetric

@@ -10,12 +10,12 @@ localOpenhabPath="$PWD/openhab2/"
 folderArray=(
 #    "html/"
 #    "icons/"
-    "items/"
+#    "items/"
 #    "persistence/"
     "rules/"
 #    "scripts/"
 #    "services/"
-    "sitemaps/"
+#    "sitemaps/"
 #    "sounds/"
 #    "things/"
 #    "transform/"
@@ -24,9 +24,9 @@ folderArray=(
 for folder in "${folderArray[@]}"
 do
     echo "Update Source: $localOpenhabPath$folder Destination: $serverOpenhabPath$folder"
-#	sshpass -p $serverPassword ssh $serverUser@$serverIp "rm -rf $serverOpenhabPath$folder*"
+	sshpass -p $serverPassword ssh $serverUser@$serverIp "rm -f $serverOpenhabPath$folder*"
     sshpass -p $serverPassword scp $localOpenhabPath$folder* $serverUser@$serverIp:$serverOpenhabPath$folder
-#    sshpass -p $serverPassword ssh $serverUser@$serverIp "sudo chmod -R a=rwx $serverOpenhabPath$folder"
+    sshpass -p $serverPassword ssh $serverUser@$serverIp "sudo chmod a=rwx $serverOpenhabPath$folder*"
 done
 
 #sshpass -p $serverPassword ssh $serverUser@$serverIp "sudo systemctl restart openhab2.service"

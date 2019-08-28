@@ -11,8 +11,8 @@ end
 // Detection if no mobile is connected to the WiFi (All family members are out of the house)
 rule "Absence detection"
 when
-  mobile_martina_network changed or
-  mobile_michael_network changed
+  Item mobile_martina_network changed or
+  Item mobile_michael_network changed
 then
   if ((mobile_martina_network.state.toString == "OFF") && 
       (mobile_michael_network.state.toString == "OFF"))
@@ -24,7 +24,15 @@ then
   else
   {
     absence.postUpdate("FALSE")
-    logInfo(logName, "Someone at home")
+
+    if (mobile_martina_network.state.toString == "ON")
+    {
+      logInfo(logName, "Martina at home")
+    }
+    if (mobile_michael_network.state.toString == "ON")
+    {
+      logInfo(logName, "Michael at home")
+    }
   }
 end
 

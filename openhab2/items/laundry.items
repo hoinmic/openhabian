@@ -1,9 +1,9 @@
 // Dehumidifier
-String  dehumidifier_relay            "Relais Status [%s]"        <fan>           (gLaundry)           { http="<[http://192.168.0.100/report:10000:JSONPATH($.relay)]" } // Update every 10s
-Number  dehumidifier_power            "Power [%.1f W]"            <fan>           (gLaundry, gPower)   { http="<[http://192.168.0.100/report:10000:JSONPATH($.power)]" } // Update every 10s
-Number  dehumidifier_temperature      "Temperature [%.1f °C]"     <temperature>   (gLaundry)           { http="<[http://192.168.0.100/temp:3600000:JSONPATH($.compensated)]" } // Update every 1h
+String  dehumidifier_relay            "Relais Status [%s]"        <fan>           (gLaundry)           { http="<[http://192.168.0.100/report:3000:JSONPATH($.relay)]" } // Update every 10s
+Number  dehumidifier_power            "Power [%.1f W]"            <fan>           (gLaundry, gPower)   { http="<[http://192.168.0.100/report:3000:JSONPATH($.power)]" } // Update every 10s
+//Number  dehumidifier_temperature      "Temperature [%.1f °C]"     <temperature>   (gLaundry)           { http="<[http://192.168.0.100/temp:3600000:JSONPATH($.compensated)]" } // Update every 1h
 Switch  dehumidifier_network_status   "Network Status [%s]"       <network>       (gLaundry, gNetwork) { channel="network:pingdevice:dehumidifier:online" }
-Number  dehumidifier_latency          "Latency [%d ms]"           <time>          (gLaundry, gPing)    { channel="network:pingdevice:dehumidifier:latency" }
+//Number  dehumidifier_latency          "Latency [%d ms]"           <time>          (gLaundry, gPing)    { channel="network:pingdevice:dehumidifier:latency" }
 
 // Humidity sensor
 Number  battery_htShelly_01           "Battery level [%d %%]"     <battery>       (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:battery" } 
@@ -15,4 +15,5 @@ Switch  dehumidifier_switch           "Remote Control [%s]"       <switch>      
 
 // Variables
 Number  maxHumidity                   "MaxHumidity [%d %%]"       <humidity>      (gLaundry, gUserDefined)
+Number  sosHumidity                   "SosHumidity [%d %%]"       <humidity>      (gLaundry, gUserDefined)
 String  dehumidifier_status           "Dehumidifier Status [%s]"  <siren>         (gLaundry)
