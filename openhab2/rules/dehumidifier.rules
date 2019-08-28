@@ -5,7 +5,10 @@ val logName = "dehumidifier"
 var Timer timer = null
 
 val MAX_HUMIDITY = 65
+val MAX_HUMIDITY_EXCEED = 5
+
 val DEHUMIDIFIER_ON_TIME_H = 2
+
 val DEHUMIDIFIER_MIN_POWER_CONSUMPTION_W = 400
 val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W = 50
 
@@ -16,9 +19,10 @@ rule "Startup"
 when
   System started
 then
-  dehumidifier_switch.sendCommand(OFF)
   maxHumidity.postUpdate(MAX_HUMIDITY)
+  sosHumidity.postUpdate(MAX_HUMIDITY + MAX_HUMIDITY_EXCEED)
   dehumidifier_status.postUpdate("OK")
+  dehumidifier_switch.sendCommand(OFF)
 end
 
 //------------------------------------------------------------
@@ -99,14 +103,21 @@ then
 end
 
 //------------------------------------------------------------
-// Automatic action: Massive exceed maximum humidity
+// Automatic action: Massive exceed of maximum humidity
+rule "Update sos Humidity"
+when
+  Item maxHumidity changed
+then
+  sosHumidity.postUpdate((maxHumidity.state as DecimalType) + MAX_HUMIDITY_EXCEED)
+end
+
 rule "Massive exceed of humidity"
 when
   Item humidity_htShelly_01 changed or
-  Item maxHumidity changed or
+  Item sosHumidity changed or
   Item dehumidifier_switch changed    // if dehumidifier in some way get switched off (ex. timer expired ...)
 then
-  if (humidity_htShelly_01.state >= (maxHumidity.state + 5))
+  if (humidity_htShelly_01.state >= sosHumidity.state)
   {
     dehumidifier_switch.postUpdate(ON)
     logInfo(logName, "Start dehumidifier. Massive exceed of maximum humidity. Humidity: " + humidity_htShelly_01.state)
@@ -138,17 +149,19 @@ then
       }
       else
       {
-        dehumidifier_status.postUpdate("Dehumidifier Error")
+        dehumidifier_status.postUpdate("Error")
         logInfo (logName, "Dehumidifier Error: "+dehumidifier_power.state+"W")
       }
     }
     else
     {
+      dehumidifier_status.postUpdate("OK")
       logInfo (logName, "Dehumidifier off: "+dehumidifier_power.state+"W")
     }
   }
   else
   {
+    dehumidifier_status.postUpdate("Connection problem")
     logInfo (logName, "No connection to dehumidifier switch")
   }
 end
