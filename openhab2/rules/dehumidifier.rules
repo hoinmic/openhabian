@@ -4,7 +4,7 @@ val logName = "dehumidifier"
 
 var Timer timer = null
 
-val MAX_HUMIDITY = 65
+val MAX_HUMIDITY = 70
 val MAX_HUMIDITY_EXCEED = 5
 
 val DEHUMIDIFIER_ON_TIME_H = 2
@@ -15,7 +15,7 @@ val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W = 50
 
 //------------------------------------------------------------
 // Startup
-rule "Startup Dehumidifier"
+rule "Dehumidifier Startup"
 when
   System started
 then
@@ -28,7 +28,7 @@ end
 
 //------------------------------------------------------------
 // Power switch changes
-rule "Turn Dehumidifier OFF"
+rule "Dehumidifier Turn OFF"
 when
   Item dehumidifier_switch changed to OFF
 then
@@ -36,7 +36,7 @@ then
   logInfo(logName, "Send command turn off")
 end
 
-rule "Turn Dehumidifier ON"
+rule "Dehumidifier Turn ON"
 when
   Item dehumidifier_switch changed to ON
 then
@@ -56,7 +56,7 @@ end
 
 //------------------------------------------------------------
 // Manually action: Handle local button (power switch)
-rule "Local Button Dehumidifier"
+rule "Dehumidifier Local Button"
 when
   Item dehumidifier_relay changed
 then
@@ -78,7 +78,7 @@ end
 
 //------------------------------------------------------------
 // Automatic action: Exceed maximum humidity (low tariff)
-rule "Maximum Humidity Dehumidifier"
+rule "Dehumidifier Maximum Humidity"
 when
   Item humidity_htShelly_01 changed or
   Item low_tariff changed or
@@ -105,14 +105,14 @@ end
 
 //------------------------------------------------------------
 // Automatic action: Massive exceed of maximum humidity
-rule "Update sos Humidity Dehumidifier"
+rule "Dehumidifier Update sos Humidity"
 when
   Item maxHumidity changed
 then
   sosHumidity.postUpdate((maxHumidity.state as DecimalType) + MAX_HUMIDITY_EXCEED)
 end
 
-rule "Massive exceed of humidity"
+rule "Dehumidifier Massive exceed of humidity"
 when
   Item humidity_htShelly_01 changed or
   Item sosHumidity changed or
@@ -127,7 +127,7 @@ end
 
 //------------------------------------------------------------
 // Dehumidifier Status
-rule "Status Dehumidifier Dehumidifier"
+rule "Dehumidifier Status"
 when
   Item dehumidifier_power changed or
   Item dehumidifier_switch changed

@@ -2,7 +2,7 @@ val logName = "illumination"
 
 //------------------------------------------------------------
 // Power switch changes
-rule "Turn OFF Illumination"
+rule "Illumination Turn OFF"
 when
   System started or
   Item floorlamp_switch changed to OFF
@@ -21,7 +21,7 @@ end
 
 //------------------------------------------------------------
 // Manually action: Handle local button (power switch)
-rule "Local button Illumination"
+rule "Illumination Local button"
 when
   Item floorlamp_relay changed
 then
@@ -43,7 +43,7 @@ end
 
 //------------------------------------------------------------
 // Automatic action: Absence of family and sunset
-rule "Sunset Rule Illumination"
+rule "Illumination Sunset Rule"
 when
   Item timeOfDay changed or
   Item absence changed

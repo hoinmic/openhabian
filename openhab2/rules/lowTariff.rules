@@ -1,7 +1,7 @@
 val logName = "lowTariff"
 
 // Check low tariff
-rule "Low tariff"
+rule "lowTariff Calculate tariff"
 when
   System started or
   Time cron "0 0/5 * * * ?"   // every five minutes

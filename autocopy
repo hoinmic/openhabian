@@ -15,7 +15,7 @@ folderArray=(
     "rules/"
 #    "scripts/"
 #    "services/"
-#    "sitemaps/"
+    "sitemaps/"
 #    "sounds/"
 #    "things/"
 #    "transform/"

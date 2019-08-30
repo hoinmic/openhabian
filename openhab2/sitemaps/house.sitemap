@@ -5,7 +5,7 @@ sitemap house label="Main Menu"
         Text    item=dehumidifier_status visibility=[dehumidifier_status != "OK"]
         Text    item=humidity_htShelly_01
         Text    item=dehumidifier_relay
-        Setpoint item=maxHumidity minValue=0 maxValue=100 step=5
+        Setpoint item=maxHumidity minValue=0 maxValue=100 step=1
         Switch  item=dehumidifier_switch
 	}
     Frame label="Living Room" icon="sofa" {

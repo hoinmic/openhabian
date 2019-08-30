@@ -10,7 +10,7 @@ var DateTime nightStart = null
 // EVENING: Sunset to 22:00
 // NIGHT: 22:00 to 06:00
 
-rule "Calculate the times of this day" 
+rule "timeOfDay Calculate the times of this day" 
 when
   System started or // run at system start in case the time changed when OH was offline
   Time cron "0 3 0 * * ? *" // three minutes after midnight, to give Astro time to calculate the new day's times
@@ -32,7 +32,7 @@ then
   logInfo(logName, "Calculated night start: " + nightStart.toString)
 end
 
-rule "Define the current time segment" 
+rule "timeOfDay Define the current time segment" 
 when
   Time cron "0 0/5 * * * ?"   // every five minutes
 then
