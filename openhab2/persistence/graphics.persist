@@ -1,0 +1,1 @@
+gHumidity* : strategy = everyMinute, everyChange, restoreOnStartup

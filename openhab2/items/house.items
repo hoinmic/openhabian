@@ -18,3 +18,7 @@ DateTime  sunset_Time        "Sunset [%1$tH:%1$tM]"   <sunset>      (gHouse)    
 
 // Current low tariff
 String  low_tariff        "Low Tariff [%s]"        <moon>         (gHouse)
+
+
+// Graphics
+Group gHumidity			"Graphics Humidity"

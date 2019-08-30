@@ -11,7 +11,7 @@ folderArray=(
 #    "html/"
 #    "icons/"
 #    "items/"
-#    "persistence/"
+    "persistence/"
     "rules/"
 #    "scripts/"
 #    "services/"

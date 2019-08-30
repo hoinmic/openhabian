@@ -8,7 +8,8 @@ Required bindings:
 - Network Binding
 - HTTP Binding
 - MQTT Binding
-- Astro binding
+- Astro Binding
+- rrd4j Persistence
 
 Required misc
 - Embedded MQTT Broker

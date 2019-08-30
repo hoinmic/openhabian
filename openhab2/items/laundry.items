@@ -7,7 +7,7 @@ Switch  dehumidifier_network_status   "Network Status [%s]"       <network>     
 
 // Humidity sensor
 Number  battery_htShelly_01           "Battery level [%d %%]"     <battery>       (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:battery" } 
-Number  humidity_htShelly_01          "Humidity [%.1f %%]"        <humidity>      (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:humidity" }
+Number  humidity_htShelly_01          "Humidity [%.1f %%]"        <humidity>      (gLaundry, gShellyHT, gHumidity)   { channel="mqtt:topic:htShelly_01:humidity" }
 Number  temperature_htShelly_01       "Temperature [%.2f °C]"     <temperature>   (gLaundry, gShellyHT)   { channel="mqtt:topic:htShelly_01:temperature" }
 
 // UI
