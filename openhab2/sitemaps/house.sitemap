@@ -4,7 +4,6 @@ sitemap house label="Main Menu"
         Text    item=humidity_htShelly_01
         Setpoint item=maxHumidity minValue=0 maxValue=100 step=1
         Switch  item=dehumidifier_switch
-        Text    item=dehumidifier_relay
         Text    item=dehumidifier_status visibility=[dehumidifier_status != "OK"]
         Text    item=battery_htShelly_01 visibility=[battery_htShelly_01 < 40]
 	}
@@ -12,7 +11,6 @@ sitemap house label="Main Menu"
         Switch  item=floorlamp_switch
     }
     Frame label="Charts" icon="chart" {
-        Chart item=humidity_htShelly_01 icon="humidity" label="Humidity Laundry" refresh=600
-                period=D legend=true
+        Chart item=humidity_htShelly_01 refresh=60000 period=D
     }
 }

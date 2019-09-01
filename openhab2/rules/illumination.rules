@@ -63,6 +63,7 @@ then
   }
   else
   {
+    floorlamp_switch.postUpdate(OFF)
     logInfo(logName, "No illumination change, someone at home")
   }
 end

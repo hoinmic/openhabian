@@ -1,0 +1,8 @@
+Strategies {
+    everyMinute : "0 * * * * ?"
+    default = everyChange
+}
+
+Items {
+    humidity_htShelly_01 : strategy = everyMinute, everyChange
+}
