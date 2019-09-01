@@ -4,5 +4,5 @@ Strategies {
 }
 
 Items {
-    * : strategy = everyMinute, everyChange, restoreOnStartup
+    humidity_htShelly_01 : strategy = everyMinute, everyChange
 }

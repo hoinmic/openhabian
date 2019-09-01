@@ -9,7 +9,7 @@ Required bindings:
 - HTTP Binding
 - MQTT Binding
 - Astro Binding
-- rrd4j Persistence
+- rrd4j Persistence (-> set as default)
 
 Required misc
 - Embedded MQTT Broker
