@@ -5,4 +5,5 @@ Strategies {
 
 Items {
     humidity_htShelly_01 : strategy = everyMinute, everyChange
+    maxHumidity : strategy = everyMinute, everyChange
 }
