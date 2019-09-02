@@ -4,6 +4,6 @@ Strategies {
 }
 
 Items {
-    humidity_htShelly_01 : strategy = everyMinute, everyChange
-    maxHumidity : strategy = everyMinute, everyChange
+    humidity_htShelly_01 : strategy = everyMinute, everyChange, restoreOnStartup
+    maxHumidity : strategy = everyMinute, everyChange, restoreOnStartup
 }

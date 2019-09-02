@@ -1,28 +1,5 @@
 # Lightweight Openhab on a raspberrypi 3b
 
-## Information Flow
-
-```mermaid
-graph TD
-A[Absence rule]
-B[dehumidifier rule]
-C[Illumination rule]
-D[powerhouse low tariff rule]
-E[time segment of the day rule]
-
-W(Mobile phone)
-X(Shelly Cloud HT sensor)
-Y(Astro binding)
-Z(MyStrom switch devices)
-
-W --> A
-Y --> E
-D --> B
-X --> B
-E --> C
-A --> C
-```
-
 ## Add-ons
 
 - Network Binding
@@ -43,6 +20,34 @@ A --> C
 
 - In top foleder is a script to automatic copy the openhab files to RPI (file: autocopy)
 - Set time on RPI
+
+## Information Flow
+
+```mermaid
+graph TD
+A[absence rule]
+B[dehumidifier rule]
+C[illumination rule]
+D[powerhouse low tariff rule]
+E[time segment of the day rule]
+
+M(MyStrom switch dehumidifier)
+N(MyStrom switch illumination)
+
+W(Mobile phone)
+X(Shelly Cloud HT sensor)
+Y(Astro binding)
+
+W --> A
+Y --> E
+D --> B
+X --> B
+E --> C
+A --> C
+
+B --> M
+C --> N
+```
 
 ## ToDo
 
