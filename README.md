@@ -1,31 +1,57 @@
 # Lightweight Openhab on a raspberrypi 3b
 
-Installations on RPI:
-- openhab
-- java
+## Add-ons
 
-Required bindings:
 - Network Binding
 - HTTP Binding
 - MQTT Binding
 - Astro Binding
 - rrd4j Persistence (-> set as default)
-
-Required misc
 - Embedded MQTT Broker
-
-Required transformations:
 - JSONPath Transformation
 
-Additional:
-- Check the access (mod) of folder:
-- autocopy script (Autocopy to RPI)
+## Installations on RPI
+
+- Raspbian Buster Lite
+- openhab
+- java
+
+## Additional informations
+
+- In top foleder is a script to automatic copy the openhab files to RPI (file: autocopy)
 - Set time on RPI
 
-ToDo:
-- Dehumidifier regulation
-- Dehumidifier status (Normal operation, Water full, Connection problem)
-- Absence algorithm
-- Usage of Max-Humidity Setpoint
+## Information Flow
+
+```mermaid
+graph TD
+A[absence rule]
+B[dehumidifier rule]
+C[illumination rule]
+D[powerhouse low tariff rule]
+E[time segment of the day rule]
+
+M(MyStrom switch dehumidifier)
+N(MyStrom switch illumination)
+
+W(Mobile phone)
+X(Shelly Cloud HT sensor)
+Y(Astro binding)
+
+W --> A
+Y --> E
+D --> B
+X --> B
+E --> C
+A --> C
+
+B --> M
+C --> N
+```
+
+## ToDo
+
 - Telegram message
 - LaMetric
+- Add moving average filter for dehumidifier
+- Two channel chart?

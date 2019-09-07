@@ -4,10 +4,9 @@ val logName = "dehumidifier"
 
 var Timer timer = null
 
-val MAX_HUMIDITY = 70
-val MAX_HUMIDITY_EXCEED = 5
+val MAX_HUMIDITY = 68
 
-val DEHUMIDIFIER_ON_TIME_H = 2
+val DEHUMIDIFIER_ON_TIME_MIN = 180
 
 val DEHUMIDIFIER_MIN_POWER_CONSUMPTION_W = 400
 val DEHUMIDIFIER_MIN_POWER_WATER_TANK_FULL_W = 50
@@ -20,7 +19,6 @@ when
   System started
 then
   maxHumidity.postUpdate(MAX_HUMIDITY)
-  sosHumidity.postUpdate(MAX_HUMIDITY + MAX_HUMIDITY_EXCEED)
   dehumidifier_status.postUpdate("OK")
   dehumidifier_switch.sendCommand(OFF)
   logInfo(logName, "Variables initialized")
@@ -42,47 +40,37 @@ when
 then
   dehumidifier_switch.sendCommand(ON)
   logInfo(logName, "Send command turn on")
-
-  // After a timeout, turn the dehumidifier off
-  if (timer === null)
-  {
-    timer = createTimer(now.plusHours(DEHUMIDIFIER_ON_TIME_H)) [|
-          dehumidifier_switch.postUpdate(OFF)
-          logInfo(logName, "Timer expiration, turned OFF")
-          timer = null   // reset the timer
-      ]
-  }
 end
 
 //------------------------------------------------------------
-// Manually action: Handle local button (power switch)
-rule "Dehumidifier Local Button"
+// Automatic stop: Dehumidifier stop after defined time
+rule "Dehumidifier Timeout"
 when
   Item dehumidifier_relay changed
 then
-  // Manually turned on?
-  if ((dehumidifier_relay.state.toString == "true") &&
-      (dehumidifier_switch.state == OFF ))
+  // Check if dehumidifier is turned on
+  if (dehumidifier_relay.state.toString == "true")
   {
-    dehumidifier_switch.postUpdate(ON)
-    logInfo(logName, "Locally turned ON")
-  }
-  // Manually turned off?
-  if ((dehumidifier_relay.state.toString == "false") &&
-      (dehumidifier_switch.state == ON ))
-  {
-    dehumidifier_switch.postUpdate(OFF)
-    logInfo(logName, "Locally turned OFF")
+    // After a timeout, turn the dehumidifier off
+    if (timer === null)
+    {
+      timer = createTimer(now.plusMinutes(DEHUMIDIFIER_ON_TIME_MIN)) [|
+            dehumidifier_switch.postUpdate(OFF)
+            logInfo(logName, "Timer expiration, turned OFF")
+            timer = null   // reset the timer
+        ]
+    }
   }
 end
 
 //------------------------------------------------------------
-// Automatic action: Exceed maximum humidity (low tariff)
+// Automatic start: Exceed maximum humidity (low tariff)
 rule "Dehumidifier Maximum Humidity"
 when
   Item humidity_htShelly_01 changed or
   Item low_tariff changed or
-  Item maxHumidity changed
+  Item maxHumidity changed or
+  Item dehumidifier_relay changed
 then
   if (humidity_htShelly_01.state >= maxHumidity.state)
   {
@@ -93,7 +81,6 @@ then
     }
     else
     {
-      dehumidifier_switch.postUpdate(OFF)
       logInfo(logName, "Standby dehumidifier. High tariff. Humidity: " + humidity_htShelly_01.state)
     }
   }
@@ -104,24 +91,16 @@ then
 end
 
 //------------------------------------------------------------
-// Automatic action: Massive exceed of maximum humidity
-rule "Dehumidifier Update sos Humidity"
+// Automatic stop: low tariff finished
+rule "Dehumidifier Stop in high tariff"
 when
-  Item maxHumidity changed
+  Item low_tariff changed
 then
-  sosHumidity.postUpdate((maxHumidity.state as DecimalType) + MAX_HUMIDITY_EXCEED)
-end
-
-rule "Dehumidifier Massive exceed of humidity"
-when
-  Item humidity_htShelly_01 changed or
-  Item sosHumidity changed or
-  Item dehumidifier_switch changed    // if dehumidifier in some way get switched off (ex. timer expired ...)
-then
-  if (humidity_htShelly_01.state >= sosHumidity.state)
+  if (low_tariff.state.toString == "FALSE")
   {
-    dehumidifier_switch.postUpdate(ON)
-    logInfo(logName, "Start dehumidifier. Massive exceed of maximum humidity. Humidity: " + humidity_htShelly_01.state)
+    // High tariff started
+    dehumidifier_switch.postUpdate(OFF)
+    logInfo(logName, "Stop dehumidifier. High tariff started. Humidity: " + humidity_htShelly_01.state)
   }
 end
 

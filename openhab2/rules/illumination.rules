@@ -1,5 +1,7 @@
 val logName = "illumination"
 
+var Timer timer = null
+
 //------------------------------------------------------------
 // Power switch changes
 rule "Illumination Turn OFF"
@@ -17,28 +19,6 @@ when
 then
   floorlamp_switch.sendCommand(ON)
   logInfo(logName, "Send command turn on")
-end
-
-//------------------------------------------------------------
-// Manually action: Handle local button (power switch)
-rule "Illumination Local button"
-when
-  Item floorlamp_relay changed
-then
-  // Manually turned on?
-  if ((floorlamp_relay.state.toString == "true") &&
-      (floorlamp_switch.state == OFF ))
-  {
-    floorlamp_switch.postUpdate(ON)
-    logInfo(logName, "Locally turned ON")
-  }
-  // Manually turned off?
-  if ((floorlamp_relay.state.toString == "false") &&
-      (floorlamp_switch.state == ON ))
-  {
-    floorlamp_switch.postUpdate(OFF)
-    logInfo(logName, "Locally turned OFF")
-  }
 end
 
 //------------------------------------------------------------
@@ -63,7 +43,6 @@ then
   }
   else
   {
-    floorlamp_switch.postUpdate(OFF)
     logInfo(logName, "No illumination change, someone at home")
   }
 end
