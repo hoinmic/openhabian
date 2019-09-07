@@ -10,7 +10,7 @@ localOpenhabPath="$PWD/openhab2/"
 folderArray=(
 #    "html/"
 #    "icons/"
-#    "items/"
+    "items/"
     "persistence/"
     "rules/"
 #    "scripts/"

@@ -4,8 +4,7 @@ val logName = "dehumidifier"
 
 var Timer timer = null
 
-val MAX_HUMIDITY = 70
-val MAX_HUMIDITY_EXCEED = 5
+val MAX_HUMIDITY = 68
 
 val DEHUMIDIFIER_ON_TIME_MIN = 180
 
@@ -20,7 +19,6 @@ when
   System started
 then
   maxHumidity.postUpdate(MAX_HUMIDITY)
-  sosHumidity.postUpdate(MAX_HUMIDITY + MAX_HUMIDITY_EXCEED)
   dehumidifier_status.postUpdate("OK")
   dehumidifier_switch.sendCommand(OFF)
   logInfo(logName, "Variables initialized")
@@ -93,24 +91,16 @@ then
 end
 
 //------------------------------------------------------------
-// Automatic start: Massive exceed of maximum humidity
-rule "Dehumidifier Update sos Humidity"
+// Automatic stop: low tariff finished
+rule "Dehumidifier Stop in high tariff"
 when
-  Item maxHumidity changed
+  Item low_tariff changed
 then
-  sosHumidity.postUpdate((maxHumidity.state as DecimalType) + MAX_HUMIDITY_EXCEED)
-end
-
-rule "Dehumidifier Massive exceed of humidity"
-when
-  Item humidity_htShelly_01 changed or
-  Item sosHumidity changed or
-  Item dehumidifier_switch changed    // if dehumidifier in some way get switched off (ex. timer expired ...)
-then
-  if (humidity_htShelly_01.state >= sosHumidity.state)
+  if (low_tariff.state.toString == "FALSE")
   {
-    dehumidifier_switch.postUpdate(ON)
-    logInfo(logName, "Start dehumidifier. Massive exceed of maximum humidity. Humidity: " + humidity_htShelly_01.state)
+    // High tariff started
+    dehumidifier_switch.postUpdate(OFF)
+    logInfo(logName, "Stop dehumidifier. High tariff started. Humidity: " + humidity_htShelly_01.state)
   }
 end
 
