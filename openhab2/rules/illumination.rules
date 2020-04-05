@@ -22,28 +22,22 @@ then
 end
 
 //------------------------------------------------------------
-// Automatic action: Absence of family and sunset
-rule "Illumination Sunset Rule"
+// Copy the Switched plug socket status
+rule "Switched plug socket"
 when
-  Item timeOfDay changed or
-  Item absence changed
+  System started or
+  Item lamp_switch_network changed or
+  Time cron "0 0/1 * * * ?"   // every minute
 then
-  if (absence.state == "TRUE")
+  if (lamp_switch_network.state.toString == "ON")
   {
-    if((timeOfDay.state == "MORNING") || (timeOfDay.state == "EVENING"))
-    {
-      floorlamp_switch.postUpdate(ON)
-      logInfo(logName, "Automatic turned on: Morning/Evening + nobody at home")
-    }
-    else
-    {
-      floorlamp_switch.postUpdate(OFF)
-      logInfo(logName, "Automatic turned off: nobody at home")
-    } 
+    floorlamp_switch.postUpdate(ON)
+    logInfo(logName, "Device: Power on")
   }
   else
   {
-    logInfo(logName, "No illumination change, someone at home")
+    floorlamp_switch.postUpdate(OFF)
+    logInfo(logName, "Device: Power off")
   }
 end
 

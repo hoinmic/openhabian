@@ -7,9 +7,6 @@ sitemap house label="Main Menu"
         Text    item=dehumidifier_status visibility=[dehumidifier_status != "OK"]
         Text    item=battery_htShelly_01 visibility=[battery_htShelly_01 < 40]
 	}
-    Frame label="Living Room" icon="sofa" {
-        Switch  item=floorlamp_switch
-    }
     Frame label="Charts" icon="chart" {
         Chart item=humidity_htShelly_01 refresh=60000 period=D
     }
